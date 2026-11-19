@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MediHive</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #eaf6f6;
+    margin: 0;
+}
+
+header {
+    background: teal;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.column {
+    background: #d5eeee;
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 250px;
+}
+
+.task {
+    background: white;
+    padding: 12px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+button {
+    background: teal;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>MediHive</h1>
+<p>Healthcare Task Management System</p>
+</header>
+
+<div class="container">
+
+<h2>Add Medical Task</h2>
+
+<input type="text" id="taskName" placeholder="Task Name">
+<input type="text" id="department" placeholder="Department">
+
+<select id="status">
+<option>Pending</option>
+<option>In Progress</option>
+<option>Completed</option>
+</select>
+
+<button onclick="addTask()">Add Task</button>
+
+<div class="board">
+
+<div class="column">
+<h3>Pending</h3>
+<div id="pending"></div>
+</div>
+
+<div class="column">
+<h3>In Progress</h3>
+<div id="progress"></div>
+</div>
+
+<div class="column">
+<h3>Completed</h3>
+<div id="completed"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+let tasks = [];
+
+function addTask() {
+
+let name = document.getElementById("taskName").value;
+let department = document.getElementById("department").value;
+let status = document.getElementById("status").value;
+
+if(name == "" || department == "") {
+alert("Enter all details");
+return;
+}
+
+let task = {
+name: name,
+department: department,
+status: status
+};
+
+tasks.push(task);
+
+displayTasks();
+
+document.getElementById("taskName").value = "";
+document.getElementById("department").value = "";
+}
+
+function displayTasks() {
+
+document.getElementById("pending").innerHTML = "";
+document.getElementById("progress").innerHTML = "";
+document.getElementById("completed").innerHTML = "";
+
+tasks.forEach(function(task) {
+
+let card = document.createElement("div");
+card.className = "task";
+
+card.innerHTML =
+"<h4>" + task.name + "</h4>" +
+"<p>Department: " + task.department + "</p>" +
+"<p>Status: " + task.status + "</p>";
+
+if(task.status == "Pending") {
+document.getElementById("pending").appendChild(card);
+}
+
+else if(task.status == "In Progress") {
+document.getElementById("progress").appendChild(card);
+}
+
+else {
+document.getElementById("completed").appendChild(card);
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
